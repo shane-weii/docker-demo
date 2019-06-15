@@ -1,0 +1,37 @@
+server:
+  port: 9090
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/test?useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=utf8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: login-demo
+    password: 123456
+    hikari:
+      maximumPoolSize: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+  jackson:
+    time-zone: GMT+8
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+  application:
+    name: login-demo
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      table-underline: true
+
+# log
+logging:
+  config: classpath:logback-spring.xml

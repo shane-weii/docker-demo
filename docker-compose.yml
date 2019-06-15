@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nginx:
+    container_name: nx-nginx
+    image: nginx:1.17.0
+    restart: always
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+
+  mysql:
+    container_name: nx-mysql
+    image: mysql:5.7.26
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: ggdxw..
+      MYSQL_ROOT_HOST: '%'
+    ports:
+    - "3306:3306"
+    restart: always
+    privileged: true
+    volumes: 
+    - /data/docker/mysql/etc/my.cnf:/etc/my.cnf
+    - /data/docker/mysql/data:/var/lib/mysql
+    - /data/docker/mysql/log/mysqld.log:/var/log/mysqld.log
+    - /data/docker/mysql/script:/home/script
+
+  login-demo:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./login-demo/Dockerfile
+    volumes:
+    - ./logs:/login-demo/logs
+    - ~/.m2:/root/.m2
+    expose:
+    - "9090"
+    depends_on:
+    - nginx
+    - mysql
